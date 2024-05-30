@@ -51,3 +51,21 @@ class User(AbstractUser):
             random_username = "".join(random.choices(string.ascii_lowercase + string.digits, k=5))
             self.username=random_username
         return super(User, self).save(*args, **kwargs)
+    
+
+class ArtisanProfile(models.Model):
+    TYPE = (
+        ("EL", "Electrician"),
+        ("PL", "Plumber"),
+        ("HCL", "Home Cleaner"),
+        ("INTD", "Interior Decorator")
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    address = models.CharField(max_length=450)
+    longitude = models.CharField(max_length=15)
+    latitude = models.CharField(max_length=15)
+    business_contact = models.CharField(max_length=15, unique=True)
+    type = models.CharField(max_length=4, choices=TYPE)
+    
+    def __str__(self):
+        return f"{self.user.first_name} {self.type}"

@@ -1,4 +1,4 @@
-from main.models import User
+from main.models import User, ArtisanProfile
 from rest_framework.serializers import ModelSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -26,6 +26,18 @@ class UserSerializer(ModelSerializer):
             user.set_password(password)
             user.save()
         return user
+    
+    
+class ArtisanProfileSerializer(ModelSerializer):
+    class Meta:
+        model = ArtisanProfile
+        fields = "__all__"
+        
+    def create(self, validated_data):
+        user = validated_data.pop("user")
+        
+        user = request 
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
@@ -40,19 +52,3 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
             )
 
         return super().validate(attrs)
-# class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-#     @classmethod
-#     def get_token(cls, user):
-#         token = super().get_token(user)
-#         token['email'] = user.email
-#         return token
-    
-#     def validate(self, attrs):
-#         data = super().validate(attrs)
-#         user_id = self.user.id
-        
-#         refresh = self.get_token(self.user)
-#         data["refresh"] = str(refresh)
-#         data["access"] = str(refresh.access_token)
-#         return data
-        
