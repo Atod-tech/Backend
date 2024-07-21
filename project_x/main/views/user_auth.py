@@ -9,9 +9,9 @@ class SignUpUserView(ModelViewSet):
     serializer_class = UserSerializer
 
 
-class ArtisanProfile(ModelViewSet):
+class ArtisanProfileView(ModelViewSet):
     queryset = ArtisanProfile.objects.select_related("user")
-    serializer_class = ArtisanProfile
+    serializer_class = ArtisanProfileSerializer
 
 
 class SignInUserView(TokenObtainPairView):

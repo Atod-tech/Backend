@@ -1,10 +1,11 @@
 from main.models import User, ArtisanProfile
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from django.shortcuts import get_object_or_404, Http404
 import re
 
-class UserSerializer(ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model=User
         fields = ("id", "first_name", "last_name", "email", "contact", "password")
@@ -28,15 +29,12 @@ class UserSerializer(ModelSerializer):
         return user
     
     
-class ArtisanProfileSerializer(ModelSerializer):
+class ArtisanProfileSerializer(serializers.ModelSerializer):
+    # user = serializers.SerializerMethodField()
+
     class Meta:
         model = ArtisanProfile
         fields = "__all__"
-        
-    def create(self, validated_data):
-        user = validated_data.pop("user")
-        
-        user = request 
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
