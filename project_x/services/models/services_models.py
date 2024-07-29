@@ -1,5 +1,5 @@
-from . import ArtisanProfile, User
 from django.contrib.auth.models import models
+from . import ArtisanProfile
 
 class Services(models.Model):
     name = models.CharField(max_length=250, unique=True)

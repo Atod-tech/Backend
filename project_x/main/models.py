@@ -16,7 +16,7 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, contact, password=None, **extra_fields):
+    def create_superuser(self, email, password=None, **extra_fields):
         # Create a superuser
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
@@ -26,7 +26,7 @@ class CustomUserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        return self.create_user(contact, password, **extra_fields)
+        return self.create_user(email, password, **extra_fields)
 
 
 class User(AbstractUser):
@@ -39,7 +39,7 @@ class User(AbstractUser):
     contact = models.CharField(max_length=15, unique=True)
     profile_image = models.ImageField(null=True)
     is_artisan = models.BooleanField(default=False)
-    # is_ = models.BooleanField(default=False)
+    is_professional = models.BooleanField(default=False)
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -51,29 +51,23 @@ class User(AbstractUser):
             random_username = "".join(random.choices(string.ascii_lowercase + string.digits, k=5))
             self.username=random_username
         return super(User, self).save(*args, **kwargs)
-    
+
 
 class ArtisanProfile(models.Model):
-    TYPE = (
-        ("EL", "Electrician"),
-        ("PL", "Plumber"),
-        ("HCL", "Home Cleaner"),
-        ("INTD", "Interior Decorator")
-    )
-    
     EXPERIENCE = (
         ("1", "1"),
         ("2", "2"),
         ("3", "3"),
         ("4 & Above", "4 & Above")
     )
+    
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=450)
     longitude = models.CharField(max_length=15)
     latitude = models.CharField(max_length=15)
     business_contact = models.CharField(max_length=15, unique=True)
-    type = models.CharField(max_length=4, choices=TYPE)
+    service_type = models.ManyToManyField('services.Services')
     years_of_experience = models.CharField(choices=EXPERIENCE, max_length=9, null=True)
     
     def __str__(self):
-        return f"{self.user.first_name} {self.type}"
+        return f"{self.user.first_name}"

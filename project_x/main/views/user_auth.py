@@ -10,7 +10,7 @@ class SignUpUserView(ModelViewSet):
 
 
 class ArtisanProfileView(ModelViewSet):
-    queryset = ArtisanProfile.objects.select_related("user")
+    queryset = ArtisanProfile.objects.select_related("user").prefetch_related("service_type")
     serializer_class = ArtisanProfileSerializer
 
 
