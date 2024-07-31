@@ -1,4 +1,4 @@
-name:Secure Deployment Workflow
+name: Secure Deployment Workflow
 
 on:
   push:
@@ -11,9 +11,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: SAST Scan
-        run: grep -r -e "password" -e "secret" -e "keys" .
-        # run: grep -Ri -w '(password|passwd|pass|secret|keys)' .
+        run: grep -Ri -w '(password|passwd|pass|secret|keys)' .
 
   deploy:
     runs-on: ubuntu-latest
@@ -21,12 +21,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Deploy to Github Pages
+
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.Test}}
-          publish_dir: .
-
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./path-to-your-directory  # Adjust this path if necessary
 
   dast:
     runs-on: ubuntu-latest
