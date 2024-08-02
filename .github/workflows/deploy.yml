@@ -26,7 +26,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./path-to-your-directory  # Adjust this path if necessary
+          publish_dir: ./ # Adjust this path if necessary
 
   dast:
     runs-on: ubuntu-latest
