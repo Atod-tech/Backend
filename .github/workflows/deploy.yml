@@ -2,7 +2,7 @@ name: Secure Deployment Workflow
 
 on:
   push:
-    branches:
+    branches: 
       - main
 
 jobs:
